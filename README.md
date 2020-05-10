@@ -1,0 +1,2 @@
+# Parcial_informatica2_Camilo_Alvarez_M
+ PARCIAL INFORMATICA2
