@@ -26,6 +26,26 @@ int main()
             /*Ya que la funcion Sesion retorna un booleano, si se retorna un 1,eso equivale a un true asi que se ejecutara todo lo que esta en el if
              Si se retorna un 0, esto contara como un false, entonces se ejecutara lo que esta en el else.
             */
+            int op;
+            system("CLS");
+            cout<<"Sea bienvenido al sistema de administrador del punto de venta de nuestro cine"<<endl;
+            do{
+                cout<<"Si desea agregar peliculas a la cartelera o a la lista de proximos estrenos presione: (1)."<<endl;
+                cout<<"Si desea modificar o agregar el tipo de asientos del cien y sus precios presione: (2)."<<endl;
+                cout<<"Si desea ver las ventar realizadas en el dia presione: (2)."<<endl;
+                cout<<"Si desea salir presione: (4)."<<endl;
+                cout<<"Ingrese la opcion que desea realizar:";
+                cin>>op;
+                switch (op) {
+                case 1:{
+                    admin.Crear_Cartelera();
+                    break;
+                }
+
+                }
+
+            }while(op!=3);
+
         }
         break;
     }
@@ -33,19 +53,7 @@ int main()
     }while(opcion!=3);
 }
 
-template <class Save>
-Save Guardar_Datos(){
-   /* Plantilla para guardar los datos de las operaciones realizadas.
-    * Considero que deberia usarlo como una plantilla, para asi resivir cualquier tipo de dato o contenedor y guardarlo sin ningun problema.
-    */
-}
-template <class Read>
-void Leer_Datos(){
-    /* Plantilla para leer los datos de los archivos.
-     * Considero que deberia usarlo como una plantilla, para asi poder llamar la funcion cada que quiera, y que pueda almacenar los datos a mi gusto.
-     */
 
-}
 template <class Money>
 Money Devolver_Dinero(){
     /*Plantilla de la funcion para la devuelva de dinero despues de cada pago.

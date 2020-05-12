@@ -11,6 +11,7 @@ public:
     */
     usuario();
     void Ver_Funciones();
+    void Ver_ProxEstrenos();
     void Ver_AsientosDis();
     void Comprar_Boleto();
     void Actualizar_Datos();

@@ -3,8 +3,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include "map"
-#include "list"
-
+#include "vector"
+#include <string>
 
 using namespace std;
 
