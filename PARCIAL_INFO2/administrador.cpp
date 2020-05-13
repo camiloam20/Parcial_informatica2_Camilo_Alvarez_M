@@ -14,7 +14,7 @@ bool Administrador::Sesion()
     int opcion;
     string clave,admin,adminD,claveD;
     do{
-    fstream archivo("admin.txt");//Archivo en el que se guardara el usuario y clave del administrador
+    fstream archivo("administrador.txt");//Archivo en el que se guardara el usuario y clave del administrador
     system("CLS");
     cout<<"Bienvenido al menu de ingreso del sistema de cine como administrador:\n Presione (1) para ingresar.\n Presione (2) para salir.\n Que desea hacer?:";
     cin>>opcion;
