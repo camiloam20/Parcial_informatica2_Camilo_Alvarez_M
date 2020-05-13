@@ -15,22 +15,22 @@ int main()
     int opcion;
     do{
     system("CLS");
-    cout<<" Sea Bienvenido al sistema de nuestro cine!!!"<<endl;
-    cout<<"Ingrese (1) para ingresar como un usuario normal,\nIngrese (2) para ingresar como administrador.\nIngrese (3) para salir.\nOpcion: ";
+    cout<<"Sea Bienvenido al sistema de nuestro cine!!!"<<endl;
+    cout<<" Ingrese (1) para ingresar como un usuario normal,\n Ingrese (2) para ingresar como administrador.\n Ingrese (3) para salir.\nOpcion: ";
     cin>>opcion;
     switch (opcion) {
     case 1:{
         int op;
-        system("CLS");
-        cout<<"Sea bienvenido al sistema de Usuario de nuestro cine"<<endl;
         do{
             //Menu de opciones del usuario.
-            cout<<"Si desea registrarce en el sistema de nuestro cine presione: (1)."<<endl;
-            cout<<"Si desea iniciar sesion presione: (2)."<<endl;
-            cout<<"Si desea ver las funciones disponibles: (2)."<<endl;
-            cout<<"Si desea ver los proximos estrenos presione: (4)."<<endl;
-            cout<<"Si desea comprar una entrada presione (5)."<<endl;
-            cout<<"Si desea salir presione (6)."<<endl;
+            system("CLS");
+            cout<<"Sea bienvenido al sistema de Usuario de nuestro cine"<<endl;
+            cout<<" Si desea registrarce en el sistema de nuestro cine presione: (1)."<<endl;
+            cout<<" Si desea iniciar sesion presione: (2)."<<endl;
+//            cout<<"Si desea ver las funciones disponibles: (2)."<<endl;
+//            cout<<"Si desea ver los proximos estrenos presione: (4)."<<endl;
+//            cout<<"Si desea comprar una entrada presione (5)."<<endl;
+            cout<<" Si desea salir presione (6)."<<endl;
             cout<<"Ingrese la opcion que desea realizar:";
             cin>>op;
             switch (op) {
@@ -50,14 +50,14 @@ int main()
              Si se retorna un 0, esto contara como un false, entonces se ejecutara lo que esta en el else.
             */
             int op;
-            system("CLS");
-            cout<<"Sea bienvenido al sistema de administrador del punto de venta de nuestro cine"<<endl;
             do{
                 //Menu de opciones del administrador.
-                cout<<"Si desea agregar peliculas a la cartelera o a la lista de proximos estrenos presione: (1)."<<endl;
-                cout<<"Si desea modificar o agregar el tipo de asientos del cien y sus precios presione: (2)."<<endl;
-                cout<<"Si desea ver las ventar realizadas en el dia presione: (2)."<<endl;
-                cout<<"Si desea salir presione: (4)."<<endl;
+                system("CLS");
+                cout<<"Sea bienvenido al sistema de administrador del punto de venta de nuestro cine."<<endl;
+                cout<<" Si desea agregar peliculas a la cartelera o a la lista de proximos estrenos presione: (1)."<<endl;
+                cout<<" Si desea modificar o agregar el tipo de asientos del cien y sus precios presione: (2)."<<endl;
+                cout<<" Si desea ver las ventar realizadas en el dia presione: (3)."<<endl;
+                cout<<" Si desea salir presione: (4)."<<endl;
                 cout<<"Ingrese la opcion que desea realizar:";
                 cin>>op;
                 switch (op) {

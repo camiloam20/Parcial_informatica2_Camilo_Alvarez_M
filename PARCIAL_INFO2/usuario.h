@@ -5,6 +5,8 @@
 #include "map"
 #include "vector"
 #include <string>
+//#include "administrador.h"
+
 using namespace std;
 class usuario
 {
@@ -18,7 +20,7 @@ public:
      * Por ahora, estas son las funciones que creo que necesita el usuario que quiere hacer uso del cine, estas funciones podran cambiar dependiendo de como se
      * desarrolle el programa.
     */
-    usuario();
+
     void Registro_U();
     void Sesion_U();
     void Ver_Funciones();
@@ -26,6 +28,7 @@ public:
     void Ver_AsientosDis();
     void Comprar_Boleto();
     void Actualizar_Datos();
+    void guardado_registro(int cedula,string clave);
 };
 
 
