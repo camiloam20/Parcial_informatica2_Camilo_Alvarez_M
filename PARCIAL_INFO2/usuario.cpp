@@ -133,22 +133,22 @@ void usuario::Ver_ProxEstrenos()
     string id,nombre,fecha;
     system("CLS");
     cout<<"Esta es la lista de los proximos estrenos en nuestros cines:"<<endl;
+    //Con la plantilla imprimir_Titulo imprimimos los datos de una forma mas organizada
     imprimir_Titulo("ID:",5);
-    imprimir_Titulo("Nombre:",40);
+    imprimir_Titulo("Nombre:",30);
     imprimir_Titulo("Fecha de estreno:",25);
     cout<<'\n';
-
-    Lectura>>id;
+    Lectura>>id;//Situamos el primer string dentro del archivo en la variable id
     while(!Lectura.eof()){
-        Lectura>>nombre;
+        Lectura>>nombre;//Situamos los siguientes valores en las variables nombre,fecha
         Lectura>>fecha;
-
+        //Con la plantilla imprimir_Titulo imprimimos los datos de una forma mas organizada
         imprimir_Titulo(id,5);
-        imprimir_Titulo(nombre,40);
+        imprimir_Titulo(nombre,30);
         imprimir_Titulo(fecha,25);
         cout<<'\n';
 
-        Lectura>>id;
+        Lectura>>id;//Situamos en id el siguiente dato despues de un salto de linea para asi recorrer todo el archivo
     }
     Lectura.close();
     system("PAUSE");
@@ -161,7 +161,10 @@ void usuario::Ver_AsientosDis()
 
 void usuario::Comprar_Boleto()
 {
-
+    system("CLS");
+    cout<<"Bienvenido a la interfaz de compra de su entrada, seleccione una de las peliculas en nuestra cartelera:"<<endl;
+    system("PAUSE");
+    Ver_Funciones();
 }
 
 void usuario::Actualizar_Datos()

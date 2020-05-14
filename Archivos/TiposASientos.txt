@@ -1,0 +1,4 @@
+1 Sala_General_2D 1500
+2 Sala_General_3D 70000
+3 Sala_VibroSound_3D 3342
+4 Sala_Premium 22332

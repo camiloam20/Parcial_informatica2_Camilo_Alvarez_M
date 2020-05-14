@@ -1,10 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include <time.h>
 #include <stdlib.h>
 #include "map"
 #include "vector"
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -27,13 +27,13 @@ private:
     };
     //Vector en el que se guardara la estructura pelicula
     vector<Pelicula> cartelera;
-    map<int,map<string,int>> Tipos_Asientos;
 public:
     /* Implementacion de las funciones de la clase administrador:
      * Por ahora, estas son las funciones que creo que necesita el administrador del punto de venta del cine, estas funciones podran cambiar dependiendo de como se
      * desarrolle el programa.
     */
 
+    void imprimir_Titulo(string titulo, const int& largo);
     bool Sesion();
     void Crear_Cartelera();
     void Ofertar_Asientos();

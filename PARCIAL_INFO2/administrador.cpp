@@ -1,6 +1,22 @@
 #include "administrador.h"
 
 
+void Administrador::imprimir_Titulo(string titulo, const int &largo)
+{
+        /*Tuve que volver a crear la plantilla aqui como funcion de la clase debido a que no podia incluir en las dos clases la libreria plantillas.h
+         *ya que esto generaba que las plantillas que habian adentro de el .h se redefiniera.
+         *
+         * La funcion imprimir_Titulo es una funcion que usaremos para organizar nuestros datos al momento de imprimirlos, haciendo uso de la libreria
+         * iomanip haremos que nuestros datos leidos queden totalmente alineados al momento de almacenarlos en consola.
+         * -setw() es encargada de asignar un ancho en el cual se van a ingresar los datos
+         * -setfill() lo que hara es que al llenar nuestros datos, los espacios que sobran los llenara con un ' ' (espacio)
+         * -left hara que los espacios que se agregaran queden a la derecha de nuestro titulo, sin el manipulador left el titulo se
+         * agregaria de ultimo ej.(         Titulo:), Left nos permite invertir esto.
+        */
+        cout<<left<<setw(largo)<<setfill(' ')<<titulo;
+
+}
+
 bool Administrador::Sesion()
 {
     /*Esta funcion sirve para controlar el inicio de sesion del administrador del punto de venta del cine, si se verifica que la contraseña e usuario ingresados son
@@ -89,6 +105,7 @@ void Administrador::Crear_Cartelera()
             }
         case 2:{
             int dia,mes,year;
+            /**/
             fstream archivo("../Archivos/ProxEstrenos.txt",ios::app | ios::ate | ios::out);
             string idS,diaS,mesS,yearS;
             system("CLS");
@@ -102,20 +119,20 @@ void Administrador::Crear_Cartelera()
             do{
             cout<<"Ingrese dia de estreno valido:"<<endl;
             cin>>dia;
-            }while(dia<1 and dia>31);
-            diaS=std::to_string(dia);
+            }while(dia<1 and dia>31);//Verifico que el dia ingresado si corresponda a un dia valido(1 a 31)
+            diaS=std::to_string(dia);//Convierto los ints a string
             do{
             cout<<"Ingrese mes de estreno valido:"<<endl;
             cin>>mes;
-            }while(mes<1 and mes>12);
-            mesS=std::to_string(mes);
+            }while(mes<1 and mes>12);//Verifico si el mes es valido
+            mesS=std::to_string(mes);//Convierto los ints a string
             do{
             cout<<"Ingrese un (year) de estreno valido:"<<endl;
             cin>>year;
-            }while(year<2020);
-            yearS=std::to_string(year);
+            }while(year<2020);//verifico si el año es valido
+            yearS=std::to_string(year);//Convierto los ints a string
 
-            archivo<<idS+" "+nombre+" "+diaS+"/"+mesS+"/"+yearS+'\n';
+            archivo<<idS+" "+nombre+" "+diaS+"/"+mesS+"/"+yearS+'\n';//Guardo los string en el archivo.txt
             cout<<"Informacion Guardada"<<endl;
             archivo.close();
             break;
@@ -125,7 +142,33 @@ void Administrador::Crear_Cartelera()
 }
 void Administrador::Ofertar_Asientos()
 {
-
+    string Sala_2DS,Sala_3DS,Sala_3DVS,PremiumS;
+    int Sala_2D,Sala_3D,Sala_3DV,Premium;
+   fstream Guardar("../Archivos/TiposASientos.txt",ios::ate | ios::out);//Esto me permite sobreescribir el archivo y borrar los datos antiguos
+    system("CLS");
+    cout<<"El cine ofrece 4 tipos diferentes de salas con sus asientos especiales."<<endl;
+    cout<<" 1.Sala General 2D.\n 2.Sala General 3D.\n 3.Sala VibroSound 4D.\n 4.Sala Premium(Sala VibroSound 4D con servicios de lujo,,comida a domicilio, sofas comodos y licor)."<<endl;
+    cout<<"Por favor ingrese los precios que desea que tengan estas salas: "<<endl;
+    cout<<"Precio de la Sala General 2D: ";
+    cin>>Sala_2D;
+    Sala_2DS=std::to_string(Sala_2D);//Convierto los valores enteros a string
+    cout<<"Precio de la Sala General 3D: ";
+    cin>>Sala_3D;
+    Sala_3DS=std::to_string(Sala_3D);//Convierto los valores enteros a string
+    cout<<"Precio de la Sala Vibrasound 4D: ";
+    cin>>Sala_3DV;
+    Sala_3DVS=std::to_string(Sala_3DV);//Convierto los valores enteros a string
+    cout<<"Precio de la Sala Premium: ";
+    cin>>Premium;
+    PremiumS=std::to_string(Premium);//Convierto los valores enteros a string
+    //Escribo en el archivo los datos modificados;
+    Guardar<<"1 Sala_General_2D "+Sala_2DS+"\n";
+    Guardar<<"2 Sala_General_3D "+Sala_3DS+"\n";
+    Guardar<<"3 Sala_VibroSound_3D "+Sala_3DVS+"\n";
+    Guardar<<"4 Sala_Premium "+PremiumS+"\n";
+    Guardar.close();
+    cout<<"Informacion guardada"<<endl;
+    system("PAUSE");
 }
 
 void Administrador::VentasxDia()

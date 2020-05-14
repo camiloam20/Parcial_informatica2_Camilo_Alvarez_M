@@ -79,7 +79,7 @@ int main()
                 system("CLS");
                 cout<<"Sea bienvenido al sistema de administrador del punto de venta de nuestro cine."<<endl;
                 cout<<" Si desea agregar peliculas a la cartelera o a la lista de proximos estrenos presione: (1)."<<endl;
-                cout<<" Si desea modificar o agregar el tipo de asientos del cine y sus precios presione: (2)."<<endl;
+                cout<<" Si desea ver y modificar los precios de los tipos de asientos de las sala de cine: (2)."<<endl;
                 cout<<" Si desea ver las ventar realizadas en el dia presione: (3)."<<endl;
                 cout<<" Si desea salir presione: (4)."<<endl;
                 cout<<"Ingrese la opcion que desea realizar:";
@@ -90,9 +90,11 @@ int main()
                     break;
                 }
                 case 2:{
+                    admin.Ofertar_Asientos();
                     break;
                 }
                 case 3:{
+                    admin.VentasxDia();
                     break;
                 }
                 }

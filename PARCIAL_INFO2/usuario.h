@@ -1,10 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <time.h>
 #include <stdlib.h>
+#include <string>
 #include "map"
 #include "vector"
-#include <string>
 #include "Plantillas.h"
 
 using namespace std;
