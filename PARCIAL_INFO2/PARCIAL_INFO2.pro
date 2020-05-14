@@ -9,5 +9,6 @@ SOURCES += \
         usuario.cpp
 
 HEADERS += \
+    Plantillas.h \
     administrador.h \
     usuario.h

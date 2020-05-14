@@ -27,10 +27,7 @@ int main()
             cout<<"Sea bienvenido al sistema de Usuario de nuestro cine"<<endl;
             cout<<" Si desea registrarce en el sistema de nuestro cine presione: (1)."<<endl;
             cout<<" Si desea iniciar sesion presione: (2)."<<endl;
-//            cout<<"Si desea ver las funciones disponibles: (2)."<<endl;
-//            cout<<"Si desea ver los proximos estrenos presione: (4)."<<endl;
-//            cout<<"Si desea comprar una entrada presione (5)."<<endl;
-            cout<<" Si desea salir presione (6)."<<endl;
+            cout<<" Si desea salir presione (3)."<<endl;
             cout<<"Ingrese la opcion que desea realizar:";
             cin>>op;
             switch (op) {
@@ -38,10 +35,33 @@ int main()
                 User.Registro_U();//La opcion 1 invoca la funcion que permitira los usuarios registrarse en el sistema de cine.
                 break;
             }
-
+            case 2:{
+                if(User.Sesion_U()){
+                    int op;
+                    do{
+                    system("CLS");
+                    cout<<"Si desea ver las funciones disponibles: (1)."<<endl;
+                    cout<<"Si desea ver los proximos estrenos presione: (2)."<<endl;
+                    cout<<"Si desea comprar una entrada presione (3)."<<endl;
+                    cout<<" Si desea salir presione (4)."<<endl;
+                    cin>>op;
+                    switch(op){
+                    case 1:{
+                        User.Ver_Funciones();
+                        break;
+                    }
+                    case 3:{
+                        User.Comprar_Boleto();
+                        break;
+                    }
+                    }
+                    }while(op!=4);
+                }
+                break;
+            }
             }
 
-        }while(op!=6);//Se ejecutara el menu mientras que el usuario no presione el numero destinado para salir
+        }while(op!=3);//Se ejecutara el menu mientras que el usuario no presione el numero destinado para salir
         break;
     }
     case 2:{
@@ -55,7 +75,7 @@ int main()
                 system("CLS");
                 cout<<"Sea bienvenido al sistema de administrador del punto de venta de nuestro cine."<<endl;
                 cout<<" Si desea agregar peliculas a la cartelera o a la lista de proximos estrenos presione: (1)."<<endl;
-                cout<<" Si desea modificar o agregar el tipo de asientos del cien y sus precios presione: (2)."<<endl;
+                cout<<" Si desea modificar o agregar el tipo de asientos del cine y sus precios presione: (2)."<<endl;
                 cout<<" Si desea ver las ventar realizadas en el dia presione: (3)."<<endl;
                 cout<<" Si desea salir presione: (4)."<<endl;
                 cout<<"Ingrese la opcion que desea realizar:";
@@ -80,12 +100,4 @@ int main()
     }
     }
     }while(opcion!=3);//Se ejecutara el menu mientras que el usuario no presione el numero destinado para salir
-}
-
-
-template <class Money>
-Money Devolver_Dinero(){
-    /*Plantilla de la funcion para la devuelva de dinero despues de cada pago.
-     * Para esta función se usara el problema 1 de la practica 2, se invocara esta funcion cada que se le necesite, y trabajara con cualquier tipo de dato.
-    */
 }

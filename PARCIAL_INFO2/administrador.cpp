@@ -10,7 +10,7 @@ bool Administrador::Sesion()
     int opcion;
     string clave,admin,adminD,claveD;
     do{
-    fstream archivo("administracion.txt");//Archivo en el que se guardara el usuario y clave del administrador
+    fstream archivo("../Archivos/administracion.txt");//Archivo en el que se guardara el usuario y clave del administrador
     system("CLS");
     cout<<"Bienvenido al menu de ingreso del sistema de cine como administrador:\n Presione (1) para ingresar.\n Presione (2) para salir.\n Que desea hacer?:";
     cin>>opcion;
@@ -50,6 +50,7 @@ bool Administrador::Sesion()
 
 void Administrador::Crear_Cartelera()
 {
+    /*Menu para añadir peliculas a la cartelera o la lista de proximos estrenos del cine*/
     int id,asientos;
     string nombre,genero,duracion,salaYhora,clasificacion;
     int opcion;
@@ -102,8 +103,9 @@ void Administrador::VentasxDia()
 
 void Administrador::Guardar_Cartelera(int id,string nombre,string genero,string duracion,string salaYhora,int asientosTotal,string clasi){
    Pelicula Nueva_pelicula;
-   fstream guardar("Cartelera.txt",ios::app | ios::ate | ios::out);//Linea de codigo que me permite copiar en el archivo sin borrar lo que ya tengo escrito
+   fstream guardar("../Archivos/Cartelera.txt",ios::app | ios::ate | ios::out);//Linea de codigo que me permite copiar en el archivo sin borrar lo que ya tengo escrito
    string Info_Pelicula, Id_String,asientdis_String,AsientT_String;
+
    //Creacion de la estructura y vector
    Nueva_pelicula.id=id;//Primer valor de la estructura
    Nueva_pelicula.Nombre_peli=nombre;//Segundo valor de la estructura
@@ -113,7 +115,9 @@ void Administrador::Guardar_Cartelera(int id,string nombre,string genero,string 
    Nueva_pelicula.asientosDis=asientosTotal;//Sexto valor de la estructura
    Nueva_pelicula.asientosT=asientosTotal;//Septimo valor de la estructura
    Nueva_pelicula.clas=clasi;//Octavo valor de la estructura
+
    cartelera.push_back(Nueva_pelicula);//Añado la estructura completa al vector
+
    //Ciclo que guarda todo el vector en un string
    vector<Pelicula>::iterator i;//Creo el vector
    for(i=cartelera.begin();i!=cartelera.end();i++){//Ciclo que me recorrera todo el vector
@@ -122,7 +126,7 @@ void Administrador::Guardar_Cartelera(int id,string nombre,string genero,string 
        asientdis_String=std::to_string(i->asientosDis);
        AsientT_String=std::to_string(i->asientosT);
        //Añado todos los valores del vector
-       Info_Pelicula=Info_Pelicula+Id_String+" "+nombre+" "+genero+" "+duracion+" "+salaYhora+" "+asientdis_String+"/"+AsientT_String+" "+clasi+"\n";
+       Info_Pelicula=Id_String+" "+Nueva_pelicula.Nombre_peli+" "+Nueva_pelicula.Genero+" "+Nueva_pelicula.Duracion+" "+Nueva_pelicula.Sala_Hora+" "+asientdis_String+"/"+AsientT_String+" "+Nueva_pelicula.clas+"\n";
    }
    guardar<<Info_Pelicula;//Escribo todo el string en el archivo
    cartelera.clear();//Borro todo lo que hay en el vector para evitar una sobreescritura de datos

@@ -36,48 +36,94 @@ void usuario::Registro_U()
     }while(opcion!=2);
 }
 
-void usuario::Sesion_U()
+bool usuario::Sesion_U()
 {
-    fstream archivo("Registro_U.txt");
-    int opcion,saldo, cedula, Ccedula,clave,Cclave;
+    bool encontrado=false;
+    int opcion;
+    string clave,cedula,cedulaC,claveC;
     do{
-        system("CLS");
-        cout << "Si desea iniciar sesion presione (1), si desea salir presione (2): ";
-        cin>>opcion;
-        switch (opcion) {
-        case 1:{
-        bool encontrado=false;
-        cout<<"///Inicio de sesion///"<<endl;
-        cout << "Introduce la cedula: ";
-        cin>>Ccedula;
-        cout << "Introduce la clave: ";
-        cin>>Cclave;
-        archivo>>cedula;
-        while (!archivo.eof()) {
-            archivo>>clave>>saldo;
-            if(cedula==Ccedula){
-                if(clave==Cclave){
-                encontrado=true;
-                system("PAUSE");
+    fstream archivo("../Archivos/Registro_U.txt");//Archivo en el que se guardara el usuario y clave del administrador
+    system("CLS");
+    cout<<"Bienvenido al menu de ingreso de usuario:\n Presione (1) para ingresar.\n Presione (2) para salir.\n Que desea hacer?:";
+    cin>>opcion;
+    switch (opcion) {
+    case 1:{
+    system("CLS");
+    cout<<" Por favor ingrese el nombre usuario: "<<endl;
+    cin>>cedulaC;//Usuario ingresado
+    cout<<" Por favor ingrese su clave: "<<endl;
+    cin>>claveC;//Clave ingresada
+    archivo>>cedula;//En la variable cedula se guardara la primera palabra que haya antes de un espacio(Esta sera la cedula del usuario)
+    while (!archivo.eof()){
+        archivo>>clave;//En la variable clave se guardara la palabra que haya despues del usuario
+        if(cedula==cedulaC){//Si el usuario correcto y el usuario ingresado son los mismos se verificara si la contraseña es la misma
+            if (clave==claveC){
+                encontrado=true;//Si las contraseñas son las mismas, el ingreso es correcto y se podra acceder al menu de usuario del cine
                 break;
             }
-            }
-           archivo>>cedula;
         }
-        if (encontrado==false){
-            cout<<"Usuario o contraseña incorrecta"<<endl;
-            system("PAUSE");
-        }
+    archivo>>cedula;//Ahora se guarda en admin la primera palabra despues de un salto de linea
+    }
+    if (encontrado==true){
+        cout<<"Su clave es correcta."<<endl;
+        system("PAUSE");
         archivo.close();
-        break;
-        }
+        return 1;//Si la contraseña y usuarios son correctos se retorna un 1 que procedera a ejecutar el menu con las opciones disponibles para el usuario
+    }
+    else {
+        cout<<"Usuario o clave incorrecta."<<endl;
+        archivo.close();
+        system("PAUSE");}
+    }
     }
     }while(opcion!=2);
+    return 0;
 }
 
 void usuario::Ver_Funciones()
 {
+    /*Funcion que nos permite visualisar las funciones que ofrece el cine hoy
+     * Haremos uso de la plantilla imprimir_Titulo(); que trabajar con la libreria iomanip para una mejor organizacion de los datos,
+     * esta plantilla se encuentra incluida en el archivo Plantillas.h
+    */
+    fstream Lectura("../Archivos/Cartelera.txt");//Abrimos el archivo en el que se guardaron las peliculas del cine
+    string id,nombre,genero,duracion,salayhora,asientos,clasif;
+    system("CLS");
     cout<<"Estas son las funciones del dia:"<<endl;
+
+    //Con la funcion imprimir_Titulo, imprimiremos con mayor organizacion los titulos.
+    imprimir_Titulo("ID:",5);
+    imprimir_Titulo("Nombre:",20);
+    imprimir_Titulo("Genero:",15);
+    imprimir_Titulo("Duracion:",9);
+    imprimir_Titulo("Sala/Hora:",10);
+    imprimir_Titulo("Asientos:",10);
+    imprimir_Titulo("Clasificacion:",14);
+    cout<<'\n';
+
+    Lectura>>id;//Situacion en la variable id el primer string que hay en el archivo
+    while(!Lectura.eof()){//Recorremos todo el archivo
+
+        //Almacenamos en todas las variables los datos que se encuentran separados por espacios en el archivo Cartelera.txt
+        Lectura>>nombre;
+        Lectura>>genero;
+        Lectura>>duracion;
+        Lectura>>salayhora;
+        Lectura>>asientos;
+        Lectura>>clasif;
+
+        //Imprimiremos las variables anteriormente guardadas con la funcion imprimir_Titulo que nos permitira que todos los elementos queden alineados
+        imprimir_Titulo(id,5);
+        imprimir_Titulo(nombre,20);
+        imprimir_Titulo(genero,15);
+        imprimir_Titulo(duracion,15);
+        imprimir_Titulo(salayhora,15);
+        imprimir_Titulo(asientos,10);
+        imprimir_Titulo(clasif,14);
+        cout<<'\n';
+        Lectura>>id;//Situamos en la variable id la siguiente variable despues de un salto de linea, asi imprimiremos en su totalidad el archivo
+    }
+    system("PAUSE");
 }
 
 void usuario::Ver_ProxEstrenos()
@@ -101,7 +147,7 @@ void usuario::Actualizar_Datos()
 }
 
 void usuario::guardado_registro(int cedula,string clave){
-    fstream guardar("Registro_U.txt",ios::app | ios::ate | ios::out);//Linea de codigo que me permite copiar en el archivo sin borrar lo que ya tengo escrito
+    fstream guardar("../Archivos/Registro_U.txt",ios::app | ios::ate | ios::out);//Linea de codigo que me permite copiar en el archivo sin borrar lo que ya tengo escrito
     string GuardadoString,CedulaString;
     User_pass.insert(pair<int,string>(cedula,clave));//la funcion .insert introduce al mapa User_Pass los datos que el usuario acaba de ingresar
     map<int,string>::iterator i;//Iterador encargado de recorrer el mapa

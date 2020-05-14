@@ -5,7 +5,7 @@
 #include "map"
 #include "vector"
 #include <string>
-//#include "administrador.h"
+#include "Plantillas.h"
 
 using namespace std;
 class usuario
@@ -22,7 +22,7 @@ public:
     */
 
     void Registro_U();
-    void Sesion_U();
+    bool Sesion_U();
     void Ver_Funciones();
     void Ver_ProxEstrenos();
     void Ver_AsientosDis();
