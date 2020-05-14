@@ -83,8 +83,9 @@ void Administrador::Crear_Cartelera()
             cout<<" Recuerde que el formato es: |ID | Nombre | Genero | Duracion | Sala/Hora | Asientos | Clasificacion |\n (Por favor reemplaze los espacios por un _ )"<<endl;
             cout<<" Ingrese el ID de la pelicula:"<<endl;
             cin>>id;
-            cout<<" Ingrese le nombre de la pelicula(Por favor reemplaze los espacios por un _ ): "<<endl;
-            cin>>nombre;
+            cout<<" Ingrese le nombre de la pelicula: "<<endl;
+            cin.ignore();
+            getline(cin,nombre);
             cout<<" Ingrese el genero de la pelicula: "<<endl;
             cin>>genero;
             cout<<" Ingrese la duracion en minutos de la pelicula (Por favor reemplaze los espacios por un _ ): "<<endl;
@@ -114,8 +115,9 @@ void Administrador::Crear_Cartelera()
             cout<<" Ingrese el ID de la pelicula:"<<endl;
             cin>>id;
             idS=std::to_string(id);
-            cout<<" Ingrese le nombre de la pelicula(Por favor reemplaze los espacios por un _ ): "<<endl;
-            cin>>nombre;
+            cout<<" Ingrese le nombre de la pelicula: "<<endl;
+            cin.ignore();
+            getline(cin,nombre);
             do{
             cout<<"Ingrese dia de estreno valido:"<<endl;
             cin>>dia;
@@ -132,7 +134,7 @@ void Administrador::Crear_Cartelera()
             }while(year<2020);//verifico si el año es valido
             yearS=std::to_string(year);//Convierto los ints a string
 
-            archivo<<idS+" "+nombre+" "+diaS+"/"+mesS+"/"+yearS+'\n';//Guardo los string en el archivo.txt
+            archivo<<idS+" *"+nombre+"* "+diaS+"/"+mesS+"/"+yearS+'\n';//Guardo los string en el archivo.txt
             cout<<"Informacion Guardada"<<endl;
             archivo.close();
             break;
@@ -190,9 +192,7 @@ void Administrador::Guardar_Cartelera(int id,string nombre,string genero,string 
    Nueva_pelicula.asientosDis=asientosTotal;//Sexto valor de la estructura
    Nueva_pelicula.asientosT=asientosTotal;//Septimo valor de la estructura
    Nueva_pelicula.clas=clasi;//Octavo valor de la estructura
-
    cartelera.push_back(Nueva_pelicula);//Añado la estructura completa al vector
-
    //Ciclo que guarda todo el vector en un string
    vector<Pelicula>::iterator i;//Creo el vector
    for(i=cartelera.begin();i!=cartelera.end();i++){//Ciclo que me recorrera todo el vector
@@ -201,7 +201,7 @@ void Administrador::Guardar_Cartelera(int id,string nombre,string genero,string 
        asientdis_String=std::to_string(i->asientosDis);
        AsientT_String=std::to_string(i->asientosT);
        //Añado todos los valores del vector
-       Info_Pelicula=Id_String+" "+Nueva_pelicula.Nombre_peli+" "+Nueva_pelicula.Genero+" "+Nueva_pelicula.Duracion+" "+Nueva_pelicula.Sala_Hora+" "+asientdis_String+"/"+AsientT_String+" "+Nueva_pelicula.clas+"\n";
+       Info_Pelicula=Id_String+" *"+Nueva_pelicula.Nombre_peli+"* "+Nueva_pelicula.Genero+" ;"+Nueva_pelicula.Duracion+"; "+Nueva_pelicula.Sala_Hora+" "+asientdis_String+"/"+AsientT_String+" "+Nueva_pelicula.clas+"\n";
        }
    guardar<<Info_Pelicula;//Escribo todo el string en el archivo
    cartelera.clear();//Borro todo lo que hay en el vector para evitar una sobreescritura de datos

@@ -1,3 +1,1 @@
-1 Mision_De_Rescate Accion 120_Min. 4/7pm 140/140 16+
-
-2 Triple_Frontera Accion 125_Min. 2/7pm 140/140 16+
+2* Mision_de_Rescate Accion 120_Min. 4/7pm 140/140 16+

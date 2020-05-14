@@ -162,9 +162,80 @@ void usuario::Ver_AsientosDis()
 void usuario::Comprar_Boleto()
 {
     system("CLS");
+    string id,linea,idS,salaExiste,Peli_id;
+    fstream ID_verificacion("../Archivos/Cartelera.txt");/*Abriremos primero el archivo de la cartelera para ver si la pelicula que el usuario
+    escoja si existe*/
     cout<<"Bienvenido a la interfaz de compra de su entrada, seleccione una de las peliculas en nuestra cartelera:"<<endl;
     system("PAUSE");
-    Ver_Funciones();
+    Ver_Funciones();//Invocamos la funcion Ver_Funciones(); para recordarle al usuario que peliculas hay en la cartelera
+    cout<<"Ingrese el ID de la pelicula que desea ver:"<<endl;
+    cin>>Peli_id;
+    /*Con este ciclo recorreremos todo el archivo de cartelera verificando que el id de pelicula que el usuario ingreso, si corresponda a una pelicula
+     * existente en la cartelera.
+    */
+    while(!ID_verificacion.eof()){
+    getline(ID_verificacion,linea);//Guarda toda la linea
+    for(unsigned int i=0;i<linea.find('*');i++){//Se buscara desde la posicion 0 de la linea hata que se encuentre el primer espacio
+        id=+linea[i];//El caracter encontrado antes del primer espacio correspondera al id de la pelicula a buscar
+        if(Peli_id==id)break;
+    }
+    }
+    if(Peli_id==id){//Si la pelicula seleccionada si existe:
+        fstream Sala_File("../Archivos/Sala_"+id+".txt");//Se abrira el archivo de la sala si es que este ya estaba creado desde antes
+        if(!Sala_File.is_open()){
+            ofstream Crear_Archivo("../Archivos/Sala_"+id+".txt");//Si el archivo no existe, se invocara a la libreria ofstream para crearlo y abrirlo
+            Crear_Archivo.close();
+            fstream Sala_File("../Archivos/Sala_"+id+".txt");
+        }
+        Sala_File>>salaExiste;//Se situa en el primer caracter que hay en el texto, si la sala existia de antes el primer caracter seria "_"
+        if(salaExiste=="_"){
+        cout<<"La sala si existe"<<endl;
+        }
+        else{
+        cout<<"La sala no existia antes"<<endl;//Si la sala no se ha creado desde antes, procederemos a crear la matriz de nuestra sala
+        //Creacion de la matriz que formara nuestra sala de cine
+        char Asientos[10][12] = {};//Creamos una matriz con 10 filas y 12 columnas
+        for(int i=0; i<10; i++){
+            for(int j=0; j<12; j++){
+                *(*(Asientos+i)+j) = '-';//Se le pasa la direccion de memoria de los asientos para llenarlos con un -
+            }
+        }
+        Guardar_SalaCine(Asientos,id);//Se invoca la funcion que guardara la matriz en el archivo e imprimira la sala en consola
+        }
+    }
+    else{
+        cout<<"Esta pelicula no existe"<<endl;
+        }
+
+}
+
+void usuario::Guardar_SalaCine(char Asientos[10][12],string id){
+        char Filas='J';//Esta variable representa los valores de las filas, esta variable ira decreciendo para asi terminar en A como la primera fila
+        fstream Sala_File("../Archivos/Sala_"+id+".txt");//Le pasaremos el id de la pelicula para asi poder abrir el archivo correcto
+        //Imprimimos los titulos
+        Sala_File<<"_ 1  2  3  4  5  6  7  8  9  10 11 12 \n";
+        cout << "_ 1  2  3  4  5  6  7  8  9  10 11 12"<< endl;
+        /*Este for recorrera todo la matriz que previamente llenamos y la escribira en el archivo junto con los titulos y los espacios para
+        que todo se vea mas organizado al momento de imprimir*/
+        for(int i=0; i<10; i++){
+            cout<<Filas<<" ";
+            Sala_File<<Filas;//Se guardar los titulos
+            Sala_File<<" ";
+            for(int j=0; j<12; j++){
+                cout<<*(*(Asientos+i)+j)<<"  ";//Se guardar los espacios
+                Sala_File<<*(*(Asientos+i)+j);//Se le pide que guarde los datos que se encuentran rellenando la matriz
+                Sala_File<<"  ";
+            }
+            Filas--;//Se va disminuyendo la letra de las filas
+            cout<<endl;
+            Sala_File<<'\n';
+        }
+        //Decoracion de la pantalla
+        cout<<endl;
+        Sala_File<<'\n';
+        cout<<"[==============PANTALLA============]\n";
+        Sala_File<<"[==============PANTALLA============]\n";
+        Sala_File.close();
 }
 
 void usuario::Actualizar_Datos()

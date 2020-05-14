@@ -8,10 +8,12 @@
 
 int main()
 {
-    /*Este es el menu del sistema de cine; mediante un switch la persona que esta ejecutando el programa podra elegir si quiere acceder como Administrador o como
-     * usuario comun del cine.*/
+
+//    /*Este es el menu del sistema de cine; mediante un switch la persona que esta ejecutando el programa podra elegir si quiere acceder como Administrador o como
+//     * usuario comun del cine.*/
     Administrador admin;
     usuario User;
+//    User.Comprar_Boleto();
     int opcion;
     do{
     system("CLS");
