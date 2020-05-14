@@ -14,7 +14,7 @@ void usuario::Registro_U()
     //guardar.open("registro.txt",ios::app | ios::ate | ios::out);//Con esta linea podemos abrir el archivo y escribir sobre el sin borrar lo que ya estaba escrito
     do{
         system("CLS");
-        cout<<"Bienvenido al menu de registro de usuarios.\n Presione (1) para registrar usuarios.\n Presione (2) para salir."<<endl;
+        cout<<"Bienvenido al menu de registro de usuarios.\n Presione (1) para registrarse.\n Presione (2) para salir."<<endl;
         cout<<"Ingrese la opcion que quiere realizar: ";
         cin>>opcion;
         switch (opcion) {
@@ -49,7 +49,7 @@ bool usuario::Sesion_U()
     switch (opcion) {
     case 1:{
     system("CLS");
-    cout<<" Por favor ingrese el nombre usuario: "<<endl;
+    cout<<" Por favor ingrese su cedula: "<<endl;
     cin>>cedulaC;//Usuario ingresado
     cout<<" Por favor ingrese su clave: "<<endl;
     cin>>claveC;//Clave ingresada
@@ -87,17 +87,17 @@ void usuario::Ver_Funciones()
      * esta plantilla se encuentra incluida en el archivo Plantillas.h
     */
     fstream Lectura("../Archivos/Cartelera.txt");//Abrimos el archivo en el que se guardaron las peliculas del cine
-    string id,nombre,genero,duracion,salayhora,asientos,clasif;
+    string id,nombre,genero,duracion,salayhora,asientos,clasif,Prox_A_Estreno;
     system("CLS");
     cout<<"Estas son las funciones del dia:"<<endl;
 
     //Con la funcion imprimir_Titulo, imprimiremos con mayor organizacion los titulos.
     imprimir_Titulo("ID:",5);
-    imprimir_Titulo("Nombre:",20);
+    imprimir_Titulo("Nombre:",35);
     imprimir_Titulo("Genero:",15);
-    imprimir_Titulo("Duracion:",9);
-    imprimir_Titulo("Sala/Hora:",10);
-    imprimir_Titulo("Asientos:",10);
+    imprimir_Titulo("Duracion:",15);
+    imprimir_Titulo("Sala/Hora:",15);
+    imprimir_Titulo("Asientos:",15);
     imprimir_Titulo("Clasificacion:",14);
     cout<<'\n';
 
@@ -114,21 +114,44 @@ void usuario::Ver_Funciones()
 
         //Imprimiremos las variables anteriormente guardadas con la funcion imprimir_Titulo que nos permitira que todos los elementos queden alineados
         imprimir_Titulo(id,5);
-        imprimir_Titulo(nombre,20);
+        imprimir_Titulo(nombre,35);
         imprimir_Titulo(genero,15);
         imprimir_Titulo(duracion,15);
         imprimir_Titulo(salayhora,15);
-        imprimir_Titulo(asientos,10);
+        imprimir_Titulo(asientos,15);
         imprimir_Titulo(clasif,14);
         cout<<'\n';
         Lectura>>id;//Situamos en la variable id la siguiente variable despues de un salto de linea, asi imprimiremos en su totalidad el archivo
     }
+    Lectura.close();
     system("PAUSE");
 }
 
 void usuario::Ver_ProxEstrenos()
 {
+    fstream Lectura("../Archivos/ProxEstrenos.txt");//Abrimos el archivo en el que se guardo la lista de los proximos estrenos
+    string id,nombre,fecha;
+    system("CLS");
     cout<<"Esta es la lista de los proximos estrenos en nuestros cines:"<<endl;
+    imprimir_Titulo("ID:",5);
+    imprimir_Titulo("Nombre:",40);
+    imprimir_Titulo("Fecha de estreno:",25);
+    cout<<'\n';
+
+    Lectura>>id;
+    while(!Lectura.eof()){
+        Lectura>>nombre;
+        Lectura>>fecha;
+
+        imprimir_Titulo(id,5);
+        imprimir_Titulo(nombre,40);
+        imprimir_Titulo(fecha,25);
+        cout<<'\n';
+
+        Lectura>>id;
+    }
+    Lectura.close();
+    system("PAUSE");
 }
 
 void usuario::Ver_AsientosDis()

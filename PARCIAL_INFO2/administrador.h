@@ -12,7 +12,7 @@ class Administrador
 {
 private:
     /*Decidi usar un vector que tuviera un tipo estructura adentro, ya que cada pelicula tiene muchos items de informacion, y usar un map para esto
-     * seria un map muy complicado, considero que el vector<struct> tiene un facil manejo de datos y hace que todo sea mas secuencial y sencillo de
+     * seria muy complicado y largo, considero que el vector<struct> tiene un facil manejo de datos y hace que todo sea mas secuencial y sencillo de
      * entender.
     */
     struct Pelicula{
@@ -25,8 +25,8 @@ private:
         int asientosT;
         string clas;
     };
+    //Vector en el que se guardara la estructura pelicula
     vector<Pelicula> cartelera;
-
     map<int,map<string,int>> Tipos_Asientos;
 public:
     /* Implementacion de las funciones de la clase administrador:

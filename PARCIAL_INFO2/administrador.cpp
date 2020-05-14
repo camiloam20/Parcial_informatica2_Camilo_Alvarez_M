@@ -79,15 +79,47 @@ void Administrador::Crear_Cartelera()
             cin>>asientos;
             cout<<" Ingrese la clasificacion de la pelicula: "<<endl;
             cin>>clasificacion;
-            Guardar_Cartelera(id,nombre,genero,duracion,salaYhora,asientos,clasificacion);//Invoco la funcion que guardar todos los datos en un vector
-//            vector<Pelicula>::iterator i;
-//            for(i=cartelera.begin();i!=cartelera.end();i++){
-//                cout<<i->id<<" "<<i->Nombre_peli<<" "<<i->Genero<<" "<<i->Duracion<<" "<<i->Sala_Hora<<" "<<i->asientosDis<<"/"<<i->asientosT<<" "<<i->clas<<endl;
-//            }
+
+            /*Despues de recibir todos los datos invoco la funcion Guardar_Cartelera a la cual le paso todos los datos que son guardados en una struct
+            y posteriormente son guardados en un vector para ser escritos en la base de datos .txt*/
+            Guardar_Cartelera(id,nombre,genero,duracion,salaYhora,asientos,clasificacion);
             cout<<"Informacion guardada."<<endl;
             system("PAUSE");
             break;
             }
+        case 2:{
+            int dia,mes,year;
+            fstream archivo("../Archivos/ProxEstrenos.txt",ios::app | ios::ate | ios::out);
+            string idS,diaS,mesS,yearS;
+            system("CLS");
+            cout<<"Sistema de ingreso de peliculas a la lista de proximos estrenos"<<endl;
+            cout<<" Recuerde que el formato es: |ID | Nombre | Fecha de estreno |\n (Por favor reemplaze los espacios por un _ )"<<endl;
+            cout<<" Ingrese el ID de la pelicula:"<<endl;
+            cin>>id;
+            idS=std::to_string(id);
+            cout<<" Ingrese le nombre de la pelicula(Por favor reemplaze los espacios por un _ ): "<<endl;
+            cin>>nombre;
+            do{
+            cout<<"Ingrese dia de estreno valido:"<<endl;
+            cin>>dia;
+            }while(dia<1 and dia>31);
+            diaS=std::to_string(dia);
+            do{
+            cout<<"Ingrese mes de estreno valido:"<<endl;
+            cin>>mes;
+            }while(mes<1 and mes>12);
+            mesS=std::to_string(mes);
+            do{
+            cout<<"Ingrese un (year) de estreno valido:"<<endl;
+            cin>>year;
+            }while(year<2020);
+            yearS=std::to_string(year);
+
+            archivo<<idS+" "+nombre+" "+diaS+"/"+mesS+"/"+yearS+'\n';
+            cout<<"Informacion Guardada"<<endl;
+            archivo.close();
+            break;
+        }
         }
     }while(opcion!=3);
 }
@@ -127,7 +159,7 @@ void Administrador::Guardar_Cartelera(int id,string nombre,string genero,string 
        AsientT_String=std::to_string(i->asientosT);
        //Añado todos los valores del vector
        Info_Pelicula=Id_String+" "+Nueva_pelicula.Nombre_peli+" "+Nueva_pelicula.Genero+" "+Nueva_pelicula.Duracion+" "+Nueva_pelicula.Sala_Hora+" "+asientdis_String+"/"+AsientT_String+" "+Nueva_pelicula.clas+"\n";
-   }
+       }
    guardar<<Info_Pelicula;//Escribo todo el string en el archivo
    cartelera.clear();//Borro todo lo que hay en el vector para evitar una sobreescritura de datos
    guardar.close();//Cierro el archivo

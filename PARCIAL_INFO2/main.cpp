@@ -3,13 +3,13 @@
 
 /* Parcial informatica 2- Desafio Evaluativo "Yo vine porque quise"
  * Camilo Alvarez Muñoz - CC.1000874557
+ * Version 2.Realice la gestion del sistema de atencion de un cine para automatizar el proceso de compra de asientos para una pelicula
  */
 
 int main()
 {
     /*Este es el menu del sistema de cine; mediante un switch la persona que esta ejecutando el programa podra elegir si quiere acceder como Administrador o como
-     * usuario comun del cine.
-    */
+     * usuario comun del cine.*/
     Administrador admin;
     usuario User;
     int opcion;
@@ -25,8 +25,8 @@ int main()
             //Menu de opciones del usuario.
             system("CLS");
             cout<<"Sea bienvenido al sistema de Usuario de nuestro cine"<<endl;
-            cout<<" Si desea registrarce en el sistema de nuestro cine presione: (1)."<<endl;
-            cout<<" Si desea iniciar sesion presione: (2)."<<endl;
+            cout<<" Si desea registrarce en el sistema de nuestro cine presione (1)."<<endl;
+            cout<<" Si desea iniciar sesion presione (2)."<<endl;
             cout<<" Si desea salir presione (3)."<<endl;
             cout<<"Ingrese la opcion que desea realizar:";
             cin>>op;
@@ -36,12 +36,12 @@ int main()
                 break;
             }
             case 2:{
-                if(User.Sesion_U()){
+                if(User.Sesion_U()){//Si User.Sesion devuelve un 1, se ejecutara el menu de opciones del usuario
                     int op;
                     do{
                     system("CLS");
-                    cout<<"Si desea ver las funciones disponibles: (1)."<<endl;
-                    cout<<"Si desea ver los proximos estrenos presione: (2)."<<endl;
+                    cout<<"Si desea ver las funciones disponibles presione (1)."<<endl;
+                    cout<<"Si desea ver los proximos estrenos presione (2)."<<endl;
                     cout<<"Si desea comprar una entrada presione (3)."<<endl;
                     cout<<" Si desea salir presione (4)."<<endl;
                     cin>>op;
@@ -50,12 +50,16 @@ int main()
                         User.Ver_Funciones();
                         break;
                     }
+                    case 2:{
+                        User.Ver_ProxEstrenos();
+                        break;
+                    }
                     case 3:{
                         User.Comprar_Boleto();
                         break;
                     }
                     }
-                    }while(op!=4);
+                    }while(op!=4);//Se ejecutara el menu mientras que el usuario no presione el numero destinado para salir
                 }
                 break;
             }
@@ -92,9 +96,7 @@ int main()
                     break;
                 }
                 }
-
             }while(op!=4);//Se ejecutara el menu mientras que el usuario no presione el numero destinado para salir
-
         }
         break;
     }
