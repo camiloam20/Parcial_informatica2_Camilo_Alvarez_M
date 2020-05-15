@@ -21,7 +21,6 @@ private:
         string Genero;
         string Duracion;
         string Sala_Hora;
-        int asientosDis;
         int asientosT;
         string clas;
     };

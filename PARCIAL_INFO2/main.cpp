@@ -13,7 +13,6 @@ int main()
 //     * usuario comun del cine.*/
     Administrador admin;
     usuario User;
-//    User.Comprar_Boleto();
     int opcion;
     do{
     system("CLS");

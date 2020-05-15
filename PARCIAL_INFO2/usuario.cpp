@@ -162,6 +162,8 @@ void usuario::Ver_AsientosDis()
 void usuario::Comprar_Boleto()
 {
     system("CLS");
+    int columna,Fila_Numero=0;
+    char fila;
     string id,linea,idS,salaExiste,Peli_id;
     fstream ID_verificacion("../Archivos/Cartelera.txt");/*Abriremos primero el archivo de la cartelera para ver si la pelicula que el usuario
     escoja si existe*/
@@ -188,21 +190,79 @@ void usuario::Comprar_Boleto()
             fstream Sala_File("../Archivos/Sala_"+id+".txt");
         }
         Sala_File>>salaExiste;//Se situa en el primer caracter que hay en el texto, si la sala existia de antes el primer caracter seria "_"
-        if(salaExiste=="_"){
+        if(salaExiste==id){
         cout<<"La sala si existe"<<endl;
+        char Asientos[10][12] = {};//Creamos una matriz con 10 filas y 12 columnas
+        Sala_File.close();
+        Imprimir_SalaCine(Asientos,id);
+        Guardar_SalaCine(Asientos,id);
+        cout<<"Los Asientos que tienen una R, ya se encuentran reservados."<<endl;
+        cout<<"Ingrese la fila en la que se quiere sentar (A a J):"<<endl;
+        cin>>fila;
+        cout<<"Ingrese la columna en la que se quiere sentar(1 a 12):"<<endl;
+        cin>>columna;
+        columna=columna-1;
+        if(fila=='A'){Fila_Numero= 9;}
+        else if(fila == 'B'){Fila_Numero= 8;}
+        else if(fila == 'C'){Fila_Numero= 7;}
+        else if(fila == 'D'){Fila_Numero= 6;}
+        else if(fila == 'E'){Fila_Numero= 5;}
+        else if(fila == 'F'){Fila_Numero= 4;}
+        else if(fila == 'G'){Fila_Numero= 3;}
+        else if(fila == 'H'){Fila_Numero= 2;}
+        else if(fila == 'I'){Fila_Numero= 1;}
+        else if(fila == 'J'){Fila_Numero= 0;}
+        if (Asientos[Fila_Numero][columna]=='-'){
+            *(*(Asientos+Fila_Numero)+columna)='R';
+            cout<<"Su asiento ha sido reservado."<<endl;
+            Imprimir_SalaCine(Asientos,id);
+            Guardar_SalaCine(Asientos,id);
+            system("PAUSE");
         }
         else{
-        cout<<"La sala no existia antes"<<endl;//Si la sala no se ha creado desde antes, procederemos a crear la matriz de nuestra sala
-        //Creacion de la matriz que formara nuestra sala de cine
+            cout<<"Lo sentimos, este asiento ya se encuentra reservado, por favor escoja otro."<<endl;
+            Imprimir_SalaCine(Asientos,id);
+            Guardar_SalaCine(Asientos,id);
+        }
+        }
+        else{
+        //Si la sala no se ha creado desde antes, procederemos a crear la matriz de nuestra sala
         char Asientos[10][12] = {};//Creamos una matriz con 10 filas y 12 columnas
         for(int i=0; i<10; i++){
             for(int j=0; j<12; j++){
-                *(*(Asientos+i)+j) = '-';//Se le pasa la direccion de memoria de los asientos para llenarlos con un -
+                Asientos[i][j]='-';
+                /**(*(Asientos+i)+j) = '-';*///Se le pasa la direccion de memoria de los asientos para llenarlos con un -
             }
         }
         Guardar_SalaCine(Asientos,id);//Se invoca la funcion que guardara la matriz en el archivo e imprimira la sala en consola
+        cout<<"Los Asientos que tienen una R, ya se encuentran reservados."<<endl;
+        cout<<"Ingrese la fila en la que se quiere sentar (A a J):"<<endl;
+        cin>>fila;
+        cout<<"Ingrese la columna en la que se quiere sentar(1 a 12):"<<endl;
+        cin>>columna;
+        columna=columna-1;
+        if(fila=='A'){Fila_Numero= 9;}
+        else if(fila == 'B'){Fila_Numero= 8;}
+        else if(fila == 'C'){Fila_Numero= 7;}
+        else if(fila == 'D'){Fila_Numero= 6;}
+        else if(fila == 'E'){Fila_Numero= 5;}
+        else if(fila == 'F'){Fila_Numero= 4;}
+        else if(fila == 'G'){Fila_Numero= 3;}
+        else if(fila == 'H'){Fila_Numero= 2;}
+        else if(fila == 'I'){Fila_Numero= 1;}
+        else if(fila == 'J'){Fila_Numero= 0;}
+        if (Asientos[Fila_Numero][columna]=='-'){
+            *(*(Asientos+Fila_Numero)+columna)='R';
+            cout<<"Su asiento ha sido reservado."<<endl;
+            Guardar_SalaCine(Asientos,id);
+            system("PAUSE");
         }
-    }
+        else{
+            cout<<"Lo sentimos, este asiento ya se encuentra reservado, por favor escoja otro."<<endl;
+            Guardar_SalaCine(Asientos,id);
+        }
+        }
+}
     else{
         cout<<"Esta pelicula no existe"<<endl;
         }
@@ -212,34 +272,73 @@ void usuario::Comprar_Boleto()
 void usuario::Guardar_SalaCine(char Asientos[10][12],string id){
         char Filas='J';//Esta variable representa los valores de las filas, esta variable ira decreciendo para asi terminar en A como la primera fila
         fstream Sala_File("../Archivos/Sala_"+id+".txt");//Le pasaremos el id de la pelicula para asi poder abrir el archivo correcto
-        //Imprimimos los titulos
-        Sala_File<<"_ 1  2  3  4  5  6  7  8  9  10 11 12 \n";
+        Sala_File<<id+'\n';
         cout << "_ 1  2  3  4  5  6  7  8  9  10 11 12"<< endl;
         /*Este for recorrera todo la matriz que previamente llenamos y la escribira en el archivo junto con los titulos y los espacios para
         que todo se vea mas organizado al momento de imprimir*/
         for(int i=0; i<10; i++){
             cout<<Filas<<" ";
-            Sala_File<<Filas;//Se guardar los titulos
             Sala_File<<" ";
             for(int j=0; j<12; j++){
-                cout<<*(*(Asientos+i)+j)<<"  ";//Se guardar los espacios
-                Sala_File<<*(*(Asientos+i)+j);//Se le pide que guarde los datos que se encuentran rellenando la matriz
-                Sala_File<<"  ";
+                cout<<Asientos[i][j]<<"  ";//Se guardar los espacios
+                Sala_File<<Asientos[i][j];//Se le pide que guarde los datos que se encuentran rellenando la matriz
+                Sala_File<<" ";//Se guardan los espacios
             }
             Filas--;//Se va disminuyendo la letra de las filas
             cout<<endl;
             Sala_File<<'\n';
         }
-        //Decoracion de la pantalla
         cout<<endl;
         Sala_File<<'\n';
         cout<<"[==============PANTALLA============]\n";
-        Sala_File<<"[==============PANTALLA============]\n";
         Sala_File.close();
 }
 
-void usuario::Actualizar_Datos()
+void usuario::Imprimir_SalaCine(char Asientos[10][12],string id)
 {
+    int Pos0,i=0;
+    //Creamos una matriz con 10 filas y 12 columnas
+    char Pos1,Pos2,Pos3,Pos4,Pos5,Pos6,Pos7,Pos8,Pos9,Pos10,Pos11,Pos12;
+    fstream Sala_File("../Archivos/Sala_"+id+".txt");//Le pasaremos el id de la pelicula para asi poder abrir el archivo correcto
+    //Creamos la matriz 10x12 y la llenamos con "-".
+    for(int i=0; i<10; i++){
+        for(int j=0; j<12; j++){
+            Asientos[i][j]='-';
+        }
+        }
+    Sala_File>>Pos0;//La variable Pos0, guarda el numero de la sala, este valor solo nos sirve para verificar si la sala ya ha sido creada o es la primera vez
+    Sala_File>>Pos1;
+    while(!Sala_File.eof()){
+    Sala_File>>Pos2;
+    Sala_File>>Pos3;
+    Sala_File>>Pos4;
+    Sala_File>>Pos5;
+    Sala_File>>Pos6;
+    Sala_File>>Pos7;
+    Sala_File>>Pos8;
+    Sala_File>>Pos9;
+    Sala_File>>Pos10;
+    Sala_File>>Pos11;
+    Sala_File>>Pos12;
+            Asientos[i][0]=Pos1;
+            Asientos[i][1]=Pos2;
+            Asientos[i][2]=Pos3;
+            Asientos[i][3]=Pos4;
+            Asientos[i][4]=Pos5;
+            Asientos[i][5]=Pos6;
+            Asientos[i][6]=Pos7;
+            Asientos[i][7]=Pos8;
+            Asientos[i][8]=Pos9;
+            Asientos[i][9]=Pos10;
+            Asientos[i][10]=Pos11;
+            Asientos[i][11]=Pos12;
+    Sala_File>>Pos1;
+    i++;
+    cout<<Pos1;
+    }
+    Sala_File.close();
+}
+void usuario::Actualizar_Datos(){
 
 }
 

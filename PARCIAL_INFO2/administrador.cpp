@@ -67,7 +67,7 @@ bool Administrador::Sesion()
 void Administrador::Crear_Cartelera()
 {
     /*Menu para añadir peliculas a la cartelera o la lista de proximos estrenos del cine*/
-    int id,asientos;
+    int id,asientos=120;
     string nombre,genero,duracion,salaYhora,clasificacion;
     int opcion;
     do{
@@ -83,17 +83,15 @@ void Administrador::Crear_Cartelera()
             cout<<" Recuerde que el formato es: |ID | Nombre | Genero | Duracion | Sala/Hora | Asientos | Clasificacion |\n (Por favor reemplaze los espacios por un _ )"<<endl;
             cout<<" Ingrese el ID de la pelicula:"<<endl;
             cin>>id;
-            cout<<" Ingrese le nombre de la pelicula: "<<endl;
-            cin.ignore();
-            getline(cin,nombre);
+            cout<<" Ingrese le nombre de la pelicula:(Por favor reemplaze los espacios por un _ )"<<endl;
+            cin>>nombre;
             cout<<" Ingrese el genero de la pelicula: "<<endl;
             cin>>genero;
             cout<<" Ingrese la duracion en minutos de la pelicula (Por favor reemplaze los espacios por un _ ): "<<endl;
             cin>>duracion;
             cout<<" Ingrese la sala y hora de la pelicula (El formato es sala/hora): "<<endl;
             cin>>salaYhora;
-            cout<<" Ingrese la cantidad de asientos totales de la sala: "<<endl;
-            cin>>asientos;
+            cout<<"Nuestro cine solo ofrece salas con 120 asientos(10 Filas,12 Columnas)"<<endl<<endl;
             cout<<" Ingrese la clasificacion de la pelicula: "<<endl;
             cin>>clasificacion;
 
@@ -181,7 +179,7 @@ void Administrador::VentasxDia()
 void Administrador::Guardar_Cartelera(int id,string nombre,string genero,string duracion,string salaYhora,int asientosTotal,string clasi){
    Pelicula Nueva_pelicula;
    fstream guardar("../Archivos/Cartelera.txt",ios::app | ios::ate | ios::out);//Linea de codigo que me permite copiar en el archivo sin borrar lo que ya tengo escrito
-   string Info_Pelicula, Id_String,asientdis_String,AsientT_String;
+   string Info_Pelicula, Id_String,AsientT_String;
 
    //Creacion de la estructura y vector
    Nueva_pelicula.id=id;//Primer valor de la estructura
@@ -189,7 +187,6 @@ void Administrador::Guardar_Cartelera(int id,string nombre,string genero,string 
    Nueva_pelicula.Genero=genero;//Tercer valor de la estructura
    Nueva_pelicula.Duracion=duracion;//Cuarto valor de la estructura
    Nueva_pelicula.Sala_Hora=salaYhora;//Quinto valor de la estructura
-   Nueva_pelicula.asientosDis=asientosTotal;//Sexto valor de la estructura
    Nueva_pelicula.asientosT=asientosTotal;//Septimo valor de la estructura
    Nueva_pelicula.clas=clasi;//Octavo valor de la estructura
    cartelera.push_back(Nueva_pelicula);//Añado la estructura completa al vector
@@ -198,10 +195,10 @@ void Administrador::Guardar_Cartelera(int id,string nombre,string genero,string 
    for(i=cartelera.begin();i!=cartelera.end();i++){//Ciclo que me recorrera todo el vector
        //Convierto todos los ints a strings
        Id_String=std::to_string(i->id);
-       asientdis_String=std::to_string(i->asientosDis);
+
        AsientT_String=std::to_string(i->asientosT);
        //Añado todos los valores del vector
-       Info_Pelicula=Id_String+" *"+Nueva_pelicula.Nombre_peli+"* "+Nueva_pelicula.Genero+" ;"+Nueva_pelicula.Duracion+"; "+Nueva_pelicula.Sala_Hora+" "+asientdis_String+"/"+AsientT_String+" "+Nueva_pelicula.clas+"\n";
+       Info_Pelicula=Id_String+" "+Nueva_pelicula.Nombre_peli+" "+Nueva_pelicula.Genero+" "+Nueva_pelicula.Duracion+" "+Nueva_pelicula.Sala_Hora+" "+AsientT_String+" "+Nueva_pelicula.clas+"\n";
        }
    guardar<<Info_Pelicula;//Escribo todo el string en el archivo
    cartelera.clear();//Borro todo lo que hay en el vector para evitar una sobreescritura de datos

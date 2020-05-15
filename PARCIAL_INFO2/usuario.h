@@ -21,13 +21,23 @@ public:
     */
 
     void Registro_U();
+
     bool Sesion_U();
+
     void Ver_Funciones();
+
     void Ver_ProxEstrenos();
+
     void Ver_AsientosDis();
+
     void Comprar_Boleto();
+
     void Guardar_SalaCine(char Asientos[10][12],string id);
+
+    void Imprimir_SalaCine(char Asientos[10][12],string id);
+
     void Actualizar_Datos();
+
     void guardado_registro(int cedula,string clave);
 };
 
