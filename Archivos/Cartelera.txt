@@ -1,1 +1,4 @@
-2* Mision_de_Rescate Accion 120_Min. 4/7pm 140/140 16+
+1 Mision_De_Rescate accion 120_Min. 2/7pm 120 16+ 2D 10000
+2 Triple_Frontera Accion 125_Min. 4/7pm 120 16+ 3D 15000
+3 Bird_Box:A_Ciegas Drama 14_Min. 3/10pm 120 16+ 4D 23000
+

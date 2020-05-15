@@ -1,4 +1,4 @@
-1 Sala_General_2D 7900
-2 Sala_General_3D 9000
-3 Sala_VibroSound_3D 11500
-4 Sala_Premium 20000
+1 Sala_General_2D 14000
+2 Sala_General_3D 13000
+3 Sala_VibroSound_3D 13000
+4 Sala_Premium 15000

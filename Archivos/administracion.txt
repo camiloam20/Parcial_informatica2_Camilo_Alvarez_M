@@ -1,1 +1,1 @@
-administrador estaeslaclave
+administrador password 0 0

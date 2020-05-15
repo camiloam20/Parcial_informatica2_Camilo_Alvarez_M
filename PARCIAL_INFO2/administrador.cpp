@@ -24,7 +24,7 @@ bool Administrador::Sesion()
     */
     bool encontrado=false;
     int opcion;
-    string clave,admin,adminD,claveD;
+    string clave,admin,adminD,claveD,ventas,entradas_Sell;
     do{
     fstream archivo("../Archivos/administracion.txt");//Archivo en el que se guardara el usuario y clave del administrador
     system("CLS");
@@ -40,6 +40,9 @@ bool Administrador::Sesion()
     archivo>>admin;//En la variable admin se guardara la primera palabra que haya antes de un espacio
     while (!archivo.eof()){
         archivo>>clave;//En la variable clave se guardara la palabra que haya despues del usuario
+        archivo>>entradas_Sell;
+        archivo>>ventas;
+
         if(admin==adminD){//Si el usuario del admin y el usuario ingresado son los mismos se verificara si la contraseña es la misma
             if (clave==claveD){
                 encontrado=true;//Si las contraseñas son las mismas, el ingreso es correcto y se podra acceder al menu de admin
@@ -67,7 +70,7 @@ bool Administrador::Sesion()
 void Administrador::Crear_Cartelera()
 {
     /*Menu para añadir peliculas a la cartelera o la lista de proximos estrenos del cine*/
-    int id,asientos=120;
+    int id,asientos=120,TipeAsiento;
     string nombre,genero,duracion,salaYhora,clasificacion;
     int opcion;
     do{
@@ -94,10 +97,15 @@ void Administrador::Crear_Cartelera()
             cout<<"Nuestro cine solo ofrece salas con 120 asientos(10 Filas,12 Columnas)"<<endl<<endl;
             cout<<" Ingrese la clasificacion de la pelicula: "<<endl;
             cin>>clasificacion;
-
+            cout<<"Estos son los tipos de asiento que hay en el cine:"<<endl;
+            cout<<" 1.Sala General 2D.\n 2.Sala General 3D.\n 3.Sala VibroSound 4D.\n 4.Sala Premium(Sala VibroSound 4D con servicios de lujo,,comida a domicilio, sofas comodos y licor)."<<endl;
+            do{
+            cout<<"Ingrese que el numero del tipo de asientos-sala que quiere que tenga la pelicula:"<<endl;
+            cin>>TipeAsiento;
+            }while(TipeAsiento<1 and TipeAsiento>4);
             /*Despues de recibir todos los datos invoco la funcion Guardar_Cartelera a la cual le paso todos los datos que son guardados en una struct
             y posteriormente son guardados en un vector para ser escritos en la base de datos .txt*/
-            Guardar_Cartelera(id,nombre,genero,duracion,salaYhora,asientos,clasificacion);
+            Guardar_Cartelera(id,nombre,genero,duracion,salaYhora,asientos,clasificacion,TipeAsiento);
             cout<<"Informacion guardada."<<endl;
             system("PAUSE");
             break;
@@ -113,7 +121,7 @@ void Administrador::Crear_Cartelera()
             cout<<" Ingrese el ID de la pelicula:"<<endl;
             cin>>id;
             idS=std::to_string(id);
-            cout<<" Ingrese le nombre de la pelicula: "<<endl;
+            cout<<" Ingrese le nombre de la pelicula(Por favor reemplaze los espacios por un _ ): "<<endl;
             cin.ignore();
             getline(cin,nombre);
             do{
@@ -132,9 +140,10 @@ void Administrador::Crear_Cartelera()
             }while(year<2020);//verifico si el año es valido
             yearS=std::to_string(year);//Convierto los ints a string
 
-            archivo<<idS+" *"+nombre+"* "+diaS+"/"+mesS+"/"+yearS+'\n';//Guardo los string en el archivo.txt
+            archivo<<idS+" "+nombre+" "+diaS+"/"+mesS+"/"+yearS+'\n';//Guardo los string en el archivo.txt
             cout<<"Informacion Guardada"<<endl;
             archivo.close();
+            system("PAUSE");
             break;
         }
         }
@@ -162,47 +171,76 @@ void Administrador::Ofertar_Asientos()
     cin>>Premium;
     PremiumS=std::to_string(Premium);//Convierto los valores enteros a string
     //Escribo en el archivo los datos modificados;
-    Guardar<<"1 Sala_General_2D "+Sala_2DS+"\n";
-    Guardar<<"2 Sala_General_3D "+Sala_3DS+"\n";
-    Guardar<<"3 Sala_VibroSound_3D "+Sala_3DVS+"\n";
-    Guardar<<"4 Sala_Premium "+PremiumS+"\n";
+    Guardar<<"1 Sala_General_2D "+Sala_2DS+'\n';
+    Guardar<<"2 Sala_General_3D "+Sala_3DS+'\n';
+    Guardar<<"3 Sala_VibroSound_3D "+Sala_3DVS+'\n';
+    Guardar<<"4 Sala_Premium "+PremiumS+'\n';
     Guardar.close();
     cout<<"Informacion guardada"<<endl;
     system("PAUSE");
 }
 
-void Administrador::VentasxDia()
-{
+void Administrador::VentasxDia(){
 
+    int entradas_vendidas,ventas;
+    string clave,admin;
+    fstream archivo("../Archivos/administracion.txt");
+    archivo>>admin;
+    archivo>>clave;
+    archivo>>entradas_vendidas;
+    archivo>>ventas;
+    cout<<"Se han vendido "<<entradas_vendidas<<" en el dia."<<endl;
+    archivo.close();
 }
 
-void Administrador::Guardar_Cartelera(int id,string nombre,string genero,string duracion,string salaYhora,int asientosTotal,string clasi){
+void Administrador::Guardar_Cartelera(int id,string nombre,string genero,string duracion,string salaYhora,int asientosTotal,string clasi,int TipoAsiento){
    Pelicula Nueva_pelicula;
+   bool Encontrado=false;
+   int Precio_Asiento;
+   string Info_Pelicula, Id_String,AsientT_String,Id_Asiento,Nombre_Asiento,TipoAsientoS,precioString,Tipo_SalaS;
    fstream guardar("../Archivos/Cartelera.txt",ios::app | ios::ate | ios::out);//Linea de codigo que me permite copiar en el archivo sin borrar lo que ya tengo escrito
-   string Info_Pelicula, Id_String,AsientT_String;
-
+   /*Abrire el archivo que contiene los tipos de asientos y sus precios, para asi sacar el valor del precio y tenerlo en cuenta al momento de cobrarle al usuario*/
+   fstream Precio_File("../Archivos/TiposASientos.txt");
+   TipoAsientoS=std::to_string(TipoAsiento);
+   Precio_File>>Id_Asiento;
+   while(!Precio_File.eof()){
+       Precio_File>>Nombre_Asiento;
+       Precio_File>>Precio_Asiento;
+       if(TipoAsientoS==Id_Asiento){
+           Encontrado=true;
+       }
+    Precio_File>>Id_Asiento;
+   }
+   if(Encontrado){
+   Precio_File.close();
+   if(TipoAsiento==1){Tipo_SalaS="2D";}
+   else if(TipoAsiento==2){Tipo_SalaS="3D";}
+   else if(TipoAsiento==3){Tipo_SalaS="4D";}
+   else if(TipoAsiento==4){Tipo_SalaS="Premium";}
    //Creacion de la estructura y vector
    Nueva_pelicula.id=id;//Primer valor de la estructura
    Nueva_pelicula.Nombre_peli=nombre;//Segundo valor de la estructura
    Nueva_pelicula.Genero=genero;//Tercer valor de la estructura
    Nueva_pelicula.Duracion=duracion;//Cuarto valor de la estructura
    Nueva_pelicula.Sala_Hora=salaYhora;//Quinto valor de la estructura
-   Nueva_pelicula.asientosT=asientosTotal;//Septimo valor de la estructura
-   Nueva_pelicula.clas=clasi;//Octavo valor de la estructura
+   Nueva_pelicula.asientosT=asientosTotal;//Sexto valor de la estructura
+   Nueva_pelicula.clas=clasi;//Septimo valor de la estructura
+   Nueva_pelicula.Precio_e=Precio_Asiento;//Octavo valor de la estructura
+
    cartelera.push_back(Nueva_pelicula);//Añado la estructura completa al vector
    //Ciclo que guarda todo el vector en un string
    vector<Pelicula>::iterator i;//Creo el vector
    for(i=cartelera.begin();i!=cartelera.end();i++){//Ciclo que me recorrera todo el vector
        //Convierto todos los ints a strings
        Id_String=std::to_string(i->id);
-
+       precioString=std::to_string(i->Precio_e);
        AsientT_String=std::to_string(i->asientosT);
-       //Añado todos los valores del vector
-       Info_Pelicula=Id_String+" "+Nueva_pelicula.Nombre_peli+" "+Nueva_pelicula.Genero+" "+Nueva_pelicula.Duracion+" "+Nueva_pelicula.Sala_Hora+" "+AsientT_String+" "+Nueva_pelicula.clas+"\n";
+       //Añado todos los valores del vector a un string que sera guardado en el archivo
+       Info_Pelicula=Id_String+" "+Nueva_pelicula.Nombre_peli+" "+Nueva_pelicula.Genero+" "+Nueva_pelicula.Duracion+" "+Nueva_pelicula.Sala_Hora+" "+AsientT_String+"/120 "+Nueva_pelicula.clas+" "+Tipo_SalaS+" "+precioString+"\n";
        }
    guardar<<Info_Pelicula;//Escribo todo el string en el archivo
    cartelera.clear();//Borro todo lo que hay en el vector para evitar una sobreescritura de datos
    guardar.close();//Cierro el archivo
 }
-
+}
 

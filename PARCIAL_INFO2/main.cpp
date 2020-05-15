@@ -2,12 +2,10 @@
 #include "usuario.h"
 
 /* Parcial informatica 2- Desafio Evaluativo "Yo vine porque quise"
- * Camilo Alvarez Muñoz - CC.1000874557
+ * Camilo Alvarez Muñoz
  * Version 2.Realice la gestion del sistema de atencion de un cine para automatizar el proceso de compra de asientos para una pelicula
  */
-
-int main()
-{
+int main(){
 
 //    /*Este es el menu del sistema de cine; mediante un switch la persona que esta ejecutando el programa podra elegir si quiere acceder como Administrador o como
 //     * usuario comun del cine.*/
@@ -80,22 +78,35 @@ int main()
                 system("CLS");
                 cout<<"Sea bienvenido al sistema de administrador del punto de venta de nuestro cine."<<endl;
                 cout<<" Si desea agregar peliculas a la cartelera o a la lista de proximos estrenos presione: (1)."<<endl;
-                cout<<" Si desea ver y modificar los precios de los tipos de asientos de las sala de cine: (2)."<<endl;
-                cout<<" Si desea ver las ventar realizadas en el dia presione: (3)."<<endl;
-                cout<<" Si desea salir presione: (4)."<<endl;
+                cout<<" Si desea ver las ventar realizadas en el dia presione: (2)."<<endl;
+                cout<<" Si desea modificar los precios de los diferentes tipos de salas-asientos presione: (3)."<<endl;
+                cout<<" Si desea salir presione: (3)."<<endl;
                 cout<<"Ingrese la opcion que desea realizar:";
                 cin>>op;
                 switch (op) {
                 case 1:{
+                    int Id_Asiento;
+                    fstream Precio_File("../Archivos/TiposASientos.txt");
+                    Precio_File>>Id_Asiento;
+                    if(Id_Asiento!=1){
+                    system("CLS");
+                    cout<<"Antes de Agregar peliculas, debes asignar los precios que quieres que tengan los diferentes tipos de asientos:"<<endl;
+                    system("PAUSE");
+                    admin.Ofertar_Asientos();
                     admin.Crear_Cartelera();//La opcion 1 invoca la funcion que creara la cartelera de cine y los proximos estrenos.
+                    }
+                    else{
+                        admin.Crear_Cartelera();
+                    }
                     break;
                 }
+
                 case 2:{
-                    admin.Ofertar_Asientos();
+                    admin.VentasxDia();
                     break;
                 }
                 case 3:{
-                    admin.VentasxDia();
+                    admin.Ofertar_Asientos();
                     break;
                 }
                 }

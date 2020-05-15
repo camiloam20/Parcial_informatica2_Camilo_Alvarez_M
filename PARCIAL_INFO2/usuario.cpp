@@ -87,18 +87,20 @@ void usuario::Ver_Funciones()
      * esta plantilla se encuentra incluida en el archivo Plantillas.h
     */
     fstream Lectura("../Archivos/Cartelera.txt");//Abrimos el archivo en el que se guardaron las peliculas del cine
-    string id,nombre,genero,duracion,salayhora,asientos,clasif,Prox_A_Estreno;
+    string id,nombre,genero,duracion,salayhora,asientos,clasif,precio,sala;
     system("CLS");
     cout<<"Estas son las funciones del dia:"<<endl;
 
     //Con la funcion imprimir_Titulo, imprimiremos con mayor organizacion los titulos.
     imprimir_Titulo("ID:",5);
     imprimir_Titulo("Nombre:",35);
-    imprimir_Titulo("Genero:",15);
-    imprimir_Titulo("Duracion:",15);
-    imprimir_Titulo("Sala/Hora:",15);
-    imprimir_Titulo("Asientos:",15);
-    imprimir_Titulo("Clasificacion:",14);
+    imprimir_Titulo("Genero:",13);
+    imprimir_Titulo("Duracion:",13);
+    imprimir_Titulo("Sala/Hora:",13);
+    imprimir_Titulo("Asientos:",12);
+    imprimir_Titulo("Clas.",7);
+    imprimir_Titulo("Sala:",6);
+    imprimir_Titulo("Precio:",10);
     cout<<'\n';
 
     Lectura>>id;//Situacion en la variable id el primer string que hay en el archivo
@@ -111,15 +113,18 @@ void usuario::Ver_Funciones()
         Lectura>>salayhora;
         Lectura>>asientos;
         Lectura>>clasif;
-
+        Lectura>>sala;
+        Lectura>>precio;
         //Imprimiremos las variables anteriormente guardadas con la funcion imprimir_Titulo que nos permitira que todos los elementos queden alineados
         imprimir_Titulo(id,5);
         imprimir_Titulo(nombre,35);
-        imprimir_Titulo(genero,15);
-        imprimir_Titulo(duracion,15);
-        imprimir_Titulo(salayhora,15);
-        imprimir_Titulo(asientos,15);
-        imprimir_Titulo(clasif,14);
+        imprimir_Titulo(genero,13);
+        imprimir_Titulo(duracion,13);
+        imprimir_Titulo(salayhora,13);
+        imprimir_Titulo(asientos+"/120",12);
+        imprimir_Titulo(clasif,7);
+        imprimir_Titulo(sala,6);
+        imprimir_Titulo("$"+precio,10);
         cout<<'\n';
         Lectura>>id;//Situamos en la variable id la siguiente variable despues de un salto de linea, asi imprimiremos en su totalidad el archivo
     }
@@ -154,11 +159,6 @@ void usuario::Ver_ProxEstrenos()
     system("PAUSE");
 }
 
-void usuario::Ver_AsientosDis()
-{
-
-}
-
 void usuario::Comprar_Boleto()
 {
     system("CLS");
@@ -182,6 +182,7 @@ void usuario::Comprar_Boleto()
         if(Peli_id==id)break;
     }
     }
+    ID_verificacion.close();
     if(Peli_id==id){//Si la pelicula seleccionada si existe:
         fstream Sala_File("../Archivos/Sala_"+id+".txt");//Se abrira el archivo de la sala si es que este ya estaba creado desde antes
         if(!Sala_File.is_open()){
@@ -191,10 +192,14 @@ void usuario::Comprar_Boleto()
         }
         Sala_File>>salaExiste;//Se situa en el primer caracter que hay en el texto, si la sala existia de antes el primer caracter seria "_"
         if(salaExiste==id){
-        cout<<"La sala si existe"<<endl;
         char Asientos[10][12] = {};//Creamos una matriz con 10 filas y 12 columnas
+        for(int i=0; i<10; i++){
+            for(int j=0; j<12; j++){
+                Asientos[i][j]='-';
+            }
+            }
         Sala_File.close();
-        Imprimir_SalaCine(Asientos,id);
+        Leer_SalaCine(Asientos,id);
         Guardar_SalaCine(Asientos,id);
         cout<<"Los Asientos que tienen una R, ya se encuentran reservados."<<endl;
         cout<<"Ingrese la fila en la que se quiere sentar (A a J):"<<endl;
@@ -212,16 +217,16 @@ void usuario::Comprar_Boleto()
         else if(fila == 'H'){Fila_Numero= 2;}
         else if(fila == 'I'){Fila_Numero= 1;}
         else if(fila == 'J'){Fila_Numero= 0;}
-        if (Asientos[Fila_Numero][columna]=='-'){
+
+        if(Asientos[Fila_Numero][columna]=='-'){
             *(*(Asientos+Fila_Numero)+columna)='R';
+            Metodo_Pagar(id);
             cout<<"Su asiento ha sido reservado."<<endl;
-            Imprimir_SalaCine(Asientos,id);
-            Guardar_SalaCine(Asientos,id);
+            Guardar_SalaCine(Asientos,id);  
             system("PAUSE");
         }
         else{
             cout<<"Lo sentimos, este asiento ya se encuentra reservado, por favor escoja otro."<<endl;
-            Imprimir_SalaCine(Asientos,id);
             Guardar_SalaCine(Asientos,id);
         }
         }
@@ -251,8 +256,10 @@ void usuario::Comprar_Boleto()
         else if(fila == 'H'){Fila_Numero= 2;}
         else if(fila == 'I'){Fila_Numero= 1;}
         else if(fila == 'J'){Fila_Numero= 0;}
-        if (Asientos[Fila_Numero][columna]=='-'){
+
+        if(Asientos[Fila_Numero][columna]=='-'){
             *(*(Asientos+Fila_Numero)+columna)='R';
+            Metodo_Pagar(id);
             cout<<"Su asiento ha sido reservado."<<endl;
             Guardar_SalaCine(Asientos,id);
             system("PAUSE");
@@ -267,6 +274,41 @@ void usuario::Comprar_Boleto()
         cout<<"Esta pelicula no existe"<<endl;
         }
 
+}
+
+void usuario::Metodo_Pagar(string id){
+    fstream Lectura("../Archivos/Cartelera.txt");//Abrimos el archivo en el que se guardaron las peliculas del cine
+
+    bool encontrado=false;
+    string nombre,genero,duracion,salayhora,asientos,clasif,sala,idmovie;
+    int precio,dinero_ingresado;
+    Lectura>>idmovie;//Situacion en la variable id el primer string que hay en el archivo
+    while(!Lectura.eof()){
+        /*Almacenamos en todas las variables los datos que se encuentran separados por espacios en el archivo Cartelera.txt
+        Recorreremos todo el archivo para asi encontrar el valor a pagar y guardarlo*/
+        Lectura>>nombre;
+        Lectura>>genero;
+        Lectura>>duracion;
+        Lectura>>salayhora;
+        Lectura>>asientos;
+        Lectura>>clasif;
+        Lectura>>sala;
+        Lectura>>precio;
+        if(id==idmovie){
+            encontrado=true;
+     }
+    Lectura>>idmovie;
+
+    }
+    if(encontrado==true){
+    cout<<"El costo de su entrada es de:$"<<precio<<" Pesos colombianos"<<endl;
+    cout<<"Por favor ingrese el dinero con el que va a pagar:"<<endl;
+    cin>>dinero_ingresado;
+    Devolver_Dinero(dinero_ingresado,precio);
+    Actualizar_Datos(precio,id);
+    system("PAUSE");
+    }
+    Lectura.close();
 }
 
 void usuario::Guardar_SalaCine(char Asientos[10][12],string id){
@@ -294,18 +336,12 @@ void usuario::Guardar_SalaCine(char Asientos[10][12],string id){
         Sala_File.close();
 }
 
-void usuario::Imprimir_SalaCine(char Asientos[10][12],string id)
+void usuario::Leer_SalaCine(char Asientos[10][12],string id)
 {
     int Pos0,i=0;
     //Creamos una matriz con 10 filas y 12 columnas
     char Pos1,Pos2,Pos3,Pos4,Pos5,Pos6,Pos7,Pos8,Pos9,Pos10,Pos11,Pos12;
     fstream Sala_File("../Archivos/Sala_"+id+".txt");//Le pasaremos el id de la pelicula para asi poder abrir el archivo correcto
-    //Creamos la matriz 10x12 y la llenamos con "-".
-    for(int i=0; i<10; i++){
-        for(int j=0; j<12; j++){
-            Asientos[i][j]='-';
-        }
-        }
     Sala_File>>Pos0;//La variable Pos0, guarda el numero de la sala, este valor solo nos sirve para verificar si la sala ya ha sido creada o es la primera vez
     Sala_File>>Pos1;
     while(!Sala_File.eof()){
@@ -320,26 +356,66 @@ void usuario::Imprimir_SalaCine(char Asientos[10][12],string id)
     Sala_File>>Pos10;
     Sala_File>>Pos11;
     Sala_File>>Pos12;
-            Asientos[i][0]=Pos1;
-            Asientos[i][1]=Pos2;
-            Asientos[i][2]=Pos3;
-            Asientos[i][3]=Pos4;
-            Asientos[i][4]=Pos5;
-            Asientos[i][5]=Pos6;
-            Asientos[i][6]=Pos7;
-            Asientos[i][7]=Pos8;
-            Asientos[i][8]=Pos9;
-            Asientos[i][9]=Pos10;
-            Asientos[i][10]=Pos11;
-            Asientos[i][11]=Pos12;
+    //Se llenara la matriz con los valores que estan escritos en el archivo +.txt
+    Asientos[i][0]=Pos1;
+    Asientos[i][1]=Pos2;
+    Asientos[i][2]=Pos3;
+    Asientos[i][3]=Pos4;
+    Asientos[i][4]=Pos5;
+    Asientos[i][5]=Pos6;
+    Asientos[i][6]=Pos7;
+    Asientos[i][7]=Pos8;
+    Asientos[i][8]=Pos9;
+    Asientos[i][9]=Pos10;
+    Asientos[i][10]=Pos11;
+    Asientos[i][11]=Pos12;
     Sala_File>>Pos1;
     i++;
-    cout<<Pos1;
     }
     Sala_File.close();
 }
-void usuario::Actualizar_Datos(){
+void usuario::Actualizar_Datos(int pago,string id){
+    //Esta parte de la funcion esta encargada de modificar las ventas y ganancias hechas en el dia
+    long long int cursor;
+    int entradas_vendidas,ventas;
+    string clave,admin;
+    fstream archivo("../Archivos/administracion.txt");
+    archivo>>admin;
+    archivo>>clave;
+    cursor=archivo.tellg();//Se toma el cursor de la posicion antes de las entradas
+    archivo>>entradas_vendidas;
+    archivo>>ventas;
+    //Procedemos a editar las entradas vendidas y las ganancias obtenidas en el dia
+    archivo.seekg(cursor+1);
+    archivo<<entradas_vendidas+1;
+    archivo<<" ";
+    archivo<<ventas+pago;
+    archivo.close();
 
+    fstream Lectura("../Archivos/Cartelera.txt");//Abrimos el archivo en el que se guardaron las peliculas del cine
+    string nombre,genero,duracion,salayhora,clasif,sala,idmovie;
+    int precio,asientos;
+    Lectura>>idmovie;//Situacion en la variable id el primer string que hay en el archivo
+    while(Lectura.eof()){
+        /*Almacenamos en todas las variables los datos que se encuentran separados por espacios en el archivo Cartelera.txt
+        Recorreremos todo el archivo para asi encontrar el valor a pagar y guardarlo*/
+        Lectura>>nombre;
+        Lectura>>genero;
+        Lectura>>duracion;
+        Lectura>>salayhora;
+        cursor=Lectura.tellg();
+        Lectura>>asientos;
+        Lectura>>clasif;
+        Lectura>>sala;
+        Lectura>>precio;
+        if(id==idmovie){
+            //Mediante el uso del cursor modificaremos los datos en el archivo
+            Lectura.seekg(cursor+1);
+            Lectura<<asientos-1;
+        }
+     Lectura>>idmovie;
+    }
+    Lectura.close();
 }
 
 void usuario::guardado_registro(int cedula,string clave){

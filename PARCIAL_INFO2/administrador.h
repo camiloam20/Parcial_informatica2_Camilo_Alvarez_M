@@ -23,6 +23,7 @@ private:
         string Sala_Hora;
         int asientosT;
         string clas;
+        int Precio_e;
     };
     //Vector en el que se guardara la estructura pelicula
     vector<Pelicula> cartelera;
@@ -37,7 +38,7 @@ public:
     void Crear_Cartelera();
     void Ofertar_Asientos();
     void VentasxDia();
-    void Guardar_Cartelera(int id,string nombre,string genero,string duracion,string salaYhora,int asientosTotal,string clasi);
+    void Guardar_Cartelera(int id,string nombre,string genero,string duracion,string salaYhora,int asientosTotal,string clasi,int TipoAsiento);
 
 };
 

@@ -15,7 +15,7 @@ private:
     */
     map<int,string>User_pass;
 public:
-    /* Implementacion de las funciones de la clase usuario:
+    /* Implementacion de las funciones de la clase usuario:´´
      * Por ahora, estas son las funciones que creo que necesita el usuario que quiere hacer uso del cine, estas funciones podran cambiar dependiendo de como se
      * desarrolle el programa.
     */
@@ -28,15 +28,15 @@ public:
 
     void Ver_ProxEstrenos();
 
-    void Ver_AsientosDis();
-
     void Comprar_Boleto();
+
+    void Metodo_Pagar(string id);
 
     void Guardar_SalaCine(char Asientos[10][12],string id);
 
-    void Imprimir_SalaCine(char Asientos[10][12],string id);
+    void Leer_SalaCine(char Asientos[10][12],string id);
 
-    void Actualizar_Datos();
+    void Actualizar_Datos(int pago,string id);
 
     void guardado_registro(int cedula,string clave);
 };
